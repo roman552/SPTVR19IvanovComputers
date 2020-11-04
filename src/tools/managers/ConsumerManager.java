@@ -55,24 +55,36 @@ public class ConsumerManager {
     }
     public void buyProduct(List<Consumer> listConsumers, List<Product> listProducts, ProductManager productManager){
         System.out.println("---Купить товар---");
-        printListConsumers(listConsumers);
-        System.out.println("Выберите номер покупателя: ");
-        int consumerNum = scanner.nextInt()-1;
-        productManager.printListProducts(listProducts);
-        System.out.println("Выберите номер товара: ");
-        int productNum = scanner.nextInt()-1;
-        System.out.printf("%s "+"%s купил"+"s за "+listProducts.get(productNum).getPrice()+"$ %n"
-                , listConsumers.get(consumerNum).getFirstName()
-                , listConsumers.get(consumerNum).getLastName()
-                , listProducts.get(productNum).getName()
-                
-                
-                );
-        listConsumers.get(consumerNum).setCash(listConsumers.get(consumerNum).getCash()-listProducts.get(productNum).getPrice());
-        Saver saver = new Saver();
-        saver.saveToFile(listConsumers, "listConsumers");
-        listProducts.get(productNum).setQuantity(listProducts.get(productNum).getQuantity()-1);
-        saver.saveToFile(listProducts, "listProducts");
+        if(listProducts.size()!=0){
+            printListConsumers(listConsumers);
+            System.out.println("Выберите номер покупателя: ");
+            int consumerNum = scanner.nextInt()-1;
+            productManager.printListProducts(listProducts);
+            System.out.println("Выберите номер товара: ");
+            int productNum = scanner.nextInt()-1;
+            if(listConsumers.get(consumerNum).getCash()>=listProducts.get(productNum).getPrice()) {
+                System.out.printf("%s "+"%s купил"+"s за "+listProducts.get(productNum).getPrice()+"$ %n"
+                        , listConsumers.get(consumerNum).getFirstName()
+                        , listConsumers.get(consumerNum).getLastName()
+                        , listProducts.get(productNum).getName()
+
+
+                        );
+                listConsumers.get(consumerNum).setCash(listConsumers.get(consumerNum).getCash()-listProducts.get(productNum).getPrice());
+                Saver saver = new Saver();
+                saver.saveToFile(listConsumers, "listConsumers");
+                listProducts.get(productNum).setQuantity(listProducts.get(productNum).getQuantity()-1);
+                if(listProducts.get(productNum).getQuantity()==0){
+                    listProducts.remove(productNum);
+                }
+                saver.saveToFile(listProducts, "listProducts");
+
+            }else {
+                System.out.println("Не достаточно средств");
+            }
+        }else {
+            System.out.println("Нет товара");
+        }    
     }
     
 }
