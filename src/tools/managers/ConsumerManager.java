@@ -63,7 +63,7 @@ public class ConsumerManager {
             System.out.println("Выберите номер товара: ");
             int productNum = scanner.nextInt()-1;
             if(listConsumers.get(consumerNum).getCash()>=listProducts.get(productNum).getPrice()) {
-                System.out.printf("%s "+"%s купил"+"s за "+listProducts.get(productNum).getPrice()+"$ %n"
+                System.out.printf("%s "+"%s купил "+"%s за "+listProducts.get(productNum).getPrice()+"$ %n"
                         , listConsumers.get(consumerNum).getFirstName()
                         , listConsumers.get(consumerNum).getLastName()
                         , listProducts.get(productNum).getName()
